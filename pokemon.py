@@ -32,7 +32,7 @@ white = (255, 255, 255)
 
 # URL de base de l'API Pokemon
 base_url = 'https://pokeapi.co/api/v2'
-pokemon_endpoint = '/pokemon'
+
 
 # Classe représentant un Pokémon
 class Pokemon(pygame.sprite.Sprite):
@@ -85,31 +85,25 @@ class Pokemon(pygame.sprite.Sprite):
     def perform_attack(self, other, move):
         
         display_message(f'{self.name} used {move.name}')
-        
         # Pause de 1 seconde
         time.sleep(1)
-        
+
         # Calcul des dégâts
         damage = (2 * self.level + 10) / 250 * self.attack / other.defense * move.power
-        
         # Bonus de même type d'attaque (STAB)
         if move.type in self.types:
             damage *= 1.5
-            
         # Coup critique (chance de 6.25%)
         random_num = random.randint(1, 10000)
         if random_num <= 625:
             damage *= 1.5
-            
         # Arrondi des dégâts
         damage = math.floor(damage)
-        
         other.take_damage(damage)
         
     def take_damage(self, damage):
         
         self.current_hp -= damage
-        
         # Les points de vie ne peuvent pas être inférieurs à 0
         if self.current_hp < 0:
             self.current_hp = 0
@@ -118,12 +112,10 @@ class Pokemon(pygame.sprite.Sprite):
         
         # Vérification s'il reste des potions
         if self.num_potions > 0:
-            
             # Ajout de 30 points de vie (mais pas au-delà du maximum)
             self.current_hp += 30
             if self.current_hp > self.max_hp:
                 self.current_hp = self.max_hp
-                
             # Diminution du nombre de potions restantes
             self.num_potions -= 1
         
